@@ -108,11 +108,47 @@ The proofs need a plain Lean 4 toolchain and nothing else. They close
 by `omega`, `Nat.add_comm`, and the `Nat` mod lemmas, and they depend
 on no axiom beyond `propext` and `Quot.sound`.
 
-The model covers the algebra, not the arithmetic that runs it. The
-Elixir code holds these phases as f64 values, so it adds
-representation noise on top of what the proofs certify. The facts are
-per component, so a one component model loses no generality over a
-1024 or 4096 dimensional vector.
+The facts are per component, so a one component model loses no
+generality over a 1024 or 4096 dimensional vector.
+
+### Float64 and limited precision
+
+`PhaseRat.lean` connects the grid to the arithmetic that runs it.
+
+A phase is a rational with a power-of-two denominator. Component `k`
+stands for `k / 2^16` of a turn: numerator `k`, denominator fixed.
+Binary64 holds `m * 2^e` exactly while the significand `m` stays under
+`2^53`, so the question is whether the algebra ever needs a wider
+numerator.
+
+It does not. `bind` adds two numerators below `2^16`, so the exact sum
+needs 17 bits. Every theorem is stated for an arbitrary precision `p`
+and needs only `p + 1 ≤ 53`.
+
+| Theorem | Says |
+| --- | --- |
+| `sum_lt` | Two phases sum below `2^(p+1)`. One carry bit, never more. |
+| `bind_sum_exact` | The addition inside `bind` does not round. |
+| `unbind_sum_exact` | The subtraction inside `unbind` does not round. |
+| `bind_exact`, `unbind_exact` | The reduced results stay exact. |
+| `headroom` | 36 bits spare at `p = 16`. |
+| `grid_agrees`, `bind_agrees`, `unbind_agrees` | This model is the same model `HrrModel` proves correct. |
+| `unbind_bind_exact` | Retrieval is exact, and every value it touches is exact in binary64. |
+
+Two limits are worth stating plainly.
+
+Lean's `Float` is a native opaque type with no formal semantics, so no
+proof mentions it. These theorems bound the significand, and the
+standard binary64 exactness criterion does the rest.
+
+The library stores radians, `k * 2π/65536`, not turns. `2π/65536` is
+irrational, so a radian phase is not a limited-precision rational and
+the exactness above does not reach it. That gap is measured, not
+proved: a bind and unbind round trip over 4096 components moves a
+phase by at most `2.2e-15`, which is `2.3e-11` of one grid step, and
+similarity after the round trip reads `1.0`. Storing turns would close
+the gap, but it would break the golden parity fixture for an error
+already 11 orders below a grid step, so the library keeps radians.
 
 ## Background
 

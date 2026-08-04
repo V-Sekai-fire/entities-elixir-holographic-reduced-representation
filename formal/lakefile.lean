@@ -12,5 +12,7 @@ package «hrr-model» where
 
 @[default_target] lean_lib HrrModel where
 
+@[default_target] lean_lib PhaseRat where
+
 lean_exe «hrr-model» where
   root := `HrrModel
