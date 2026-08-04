@@ -5,7 +5,7 @@ defmodule HRR.MixProject do
   use Mix.Project
 
   @version "0.1.0"
-  @source_url "https://github.com/weftspun/hrr"
+  @source_url "https://github.com/weftspun/elixir-holographic-reduced-representation"
 
   def project do
     [

@@ -24,7 +24,7 @@ returns the filler plus superposition noise.
 ```elixir
 def deps do
   [
-    {:hrr, github: "weftspun/hrr"}
+    {:hrr, github: "weftspun/elixir-holographic-reduced-representation"}
   ]
 end
 ```
