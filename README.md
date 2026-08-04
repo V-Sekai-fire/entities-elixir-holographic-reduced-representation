@@ -83,6 +83,37 @@ than keep the vectors.
 `test/fixtures/hrr_golden.json` certifies parity with the Python
 `holographic.py` reference to within 1.0e-12.
 
+## Proofs
+
+`formal/` holds a Lean 4 model of the algebra on the integer grid the
+atoms come from. `encode_atom/2` scales uint16 values by `2π/65536`, so
+one component lives on `ℤ/65536`, and bind and unbind are addition and
+subtraction there.
+
+| Theorem | Says |
+| --- | --- |
+| `unbind_bind` | `unbind (bind a b) b = a`. Retrieval is exact. |
+| `unbind_bind_left` | The same through the other operand. |
+| `bind_comm` | Binding commutes, as circular convolution does. |
+| `bind_assoc` | Binding associates, so a nested bind needs no brackets. |
+| `bind_lt_grid`, `unbind_lt_grid` | Results stay on the grid. |
+
+```
+cd formal
+lake build       # check the proofs
+lake exe hrr-model
+```
+
+The proofs need a plain Lean 4 toolchain and nothing else. They close
+by `omega`, `Nat.add_comm`, and the `Nat` mod lemmas, and they depend
+on no axiom beyond `propext` and `Quot.sound`.
+
+The model covers the algebra, not the arithmetic that runs it. The
+Elixir code holds these phases as f64 values, so it adds
+representation noise on top of what the proofs certify. The facts are
+per component, so a one component model loses no generality over a
+1024 or 4096 dimensional vector.
+
 ## Background
 
 Plate 1995, *Holographic Reduced Representations*. Gayler 2004,
