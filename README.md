@@ -9,12 +9,12 @@ can still take apart.
 Each concept is a vector of phase angles in `[0, 2π)`, held as an f64 `Nx`
 tensor.
 
-| Operation | Meaning |
-| --- | --- |
-| `bind/2` | Circular convolution, as element-wise phase addition. Ties a role to a filler. The result is quasi-orthogonal to both inputs. |
-| `unbind/2` | Circular correlation, as phase subtraction. Recovers the filler. |
-| `bundle/1` | Superposition, as the circular mean. Merges vectors into one similar to each input. Holds about `√dim` items. |
-| `similarity/2` | Phase cosine similarity, in `[-1, 1]`. |
+| Operation      | Meaning                                                                                                                       |
+| -------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| `bind/2`       | Circular convolution, as element-wise phase addition. Ties a role to a filler. The result is quasi-orthogonal to both inputs. |
+| `unbind/2`     | Circular correlation, as phase subtraction. Recovers the filler.                                                              |
+| `bundle/1`     | Superposition, as the circular mean. Merges vectors into one similar to each input. Holds about `√dim` items.                 |
+| `similarity/2` | Phase cosine similarity, in `[-1, 1]`.                                                                                        |
 
 `HRR.Cleanup` adds a codebook and nearest-symbol lookup, because an unbind
 returns the filler plus superposition noise.
@@ -90,13 +90,13 @@ atoms come from. `encode_atom/2` scales uint16 values by `2π/65536`, so
 one component lives on `ℤ/65536`, and bind and unbind are addition and
 subtraction there.
 
-| Theorem | Says |
-| --- | --- |
-| `unbind_bind` | `unbind (bind a b) b = a`. Retrieval is exact. |
-| `unbind_bind_left` | The same through the other operand. |
-| `bind_comm` | Binding commutes, as circular convolution does. |
-| `bind_assoc` | Binding associates, so a nested bind needs no brackets. |
-| `bind_lt_grid`, `unbind_lt_grid` | Results stay on the grid. |
+| Theorem                          | Says                                                    |
+| -------------------------------- | ------------------------------------------------------- |
+| `unbind_bind`                    | `unbind (bind a b) b = a`. Retrieval is exact.          |
+| `unbind_bind_left`               | The same through the other operand.                     |
+| `bind_comm`                      | Binding commutes, as circular convolution does.         |
+| `bind_assoc`                     | Binding associates, so a nested bind needs no brackets. |
+| `bind_lt_grid`, `unbind_lt_grid` | Results stay on the grid.                               |
 
 ```
 cd formal
@@ -125,15 +125,15 @@ It does not. `bind` adds two numerators below `2^16`, so the exact sum
 needs 17 bits. Every theorem is stated for an arbitrary precision `p`
 and needs only `p + 1 ≤ 53`.
 
-| Theorem | Says |
-| --- | --- |
-| `sum_lt` | Two phases sum below `2^(p+1)`. One carry bit, never more. |
-| `bind_sum_exact` | The addition inside `bind` does not round. |
-| `unbind_sum_exact` | The subtraction inside `unbind` does not round. |
-| `bind_exact`, `unbind_exact` | The reduced results stay exact. |
-| `headroom` | 36 bits spare at `p = 16`. |
-| `grid_agrees`, `bind_agrees`, `unbind_agrees` | This model is the same model `HrrModel` proves correct. |
-| `unbind_bind_exact` | Retrieval is exact, and every value it touches is exact in binary64. |
+| Theorem                                       | Says                                                                 |
+| --------------------------------------------- | -------------------------------------------------------------------- |
+| `sum_lt`                                      | Two phases sum below `2^(p+1)`. One carry bit, never more.           |
+| `bind_sum_exact`                              | The addition inside `bind` does not round.                           |
+| `unbind_sum_exact`                            | The subtraction inside `unbind` does not round.                      |
+| `bind_exact`, `unbind_exact`                  | The reduced results stay exact.                                      |
+| `headroom`                                    | 36 bits spare at `p = 16`.                                           |
+| `grid_agrees`, `bind_agrees`, `unbind_agrees` | This model is the same model `HrrModel` proves correct.              |
+| `unbind_bind_exact`                           | Retrieval is exact, and every value it touches is exact in binary64. |
 
 Two limits are worth stating plainly.
 
@@ -152,8 +152,8 @@ already 11 orders below a grid step, so the library keeps radians.
 
 ## Background
 
-Plate 1995, *Holographic Reduced Representations*. Gayler 2004,
-*Vector Symbolic Architectures answer Jackendoff's challenges*.
+Plate 1995, _Holographic Reduced Representations_. Gayler 2004,
+_Vector Symbolic Architectures answer Jackendoff's challenges_.
 
 Extracted from `holographic-item-memory` (later
 `weftspun/residual-fsq-recommender`), where this was `Holo.Core.HRR`.
