@@ -8,6 +8,14 @@ It binds, unbinds, bundles and cleans up fixed-width phase vectors, so a whole r
 
 ## Building and running
 
+A Mix project depends on it with:
+
+```elixir
+{:hrr, github: "V-Sekai-fire/entities-elixir-holographic-reduced-representation"}
+```
+
+To build and test it here:
+
 ```sh
 mix deps.get
 mix test
