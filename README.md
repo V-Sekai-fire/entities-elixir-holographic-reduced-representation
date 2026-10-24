@@ -4,7 +4,7 @@ Holographic reduced representations with phase encoding for Elixir over Nx, with
 
 ## What it is for
 
-It binds, unbinds, bundles and cleans up fixed-width phase vectors, so a whole record collapses into one vector that can still be taken apart. Atoms come from hashing, so the same word gives the same vector on every machine with no seed. RFD 1021 owns the design.
+It binds, unbinds, bundles and cleans up fixed-width phase vectors, so a whole record collapses into one vector that can still be taken apart. Atoms come from hashing, so the same word gives the same vector on every machine with no seed. RFD66606-1021 owns the design.
 
 ## Building and running
 
